@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "eslint src",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "build:prod": "NODE_ENV=prod rollup -c"
   },
   "author": "dviramontes",
   "license": "ISC",
@@ -23,9 +23,12 @@
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-eslint": "^3.0.0",
+    "rollup-plugin-node-globals": "^1.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.2"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash.join": "^4.0.1"
   }
 }
