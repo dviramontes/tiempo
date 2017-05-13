@@ -1,0 +1,15 @@
+{
+  "parser": "babel-eslint",
+  "extends": "eslint:recommended",
+  "env": {
+    "mocha": true,
+    "es6": true,
+    "browser": true
+  },
+  "globals": {
+
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}
