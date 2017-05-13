@@ -19,7 +19,11 @@ export default {
         commonjs({
             include: 'node_modules/**',
         }),
-        eslint(),
+        eslint({
+            exclude: [
+                'src/styles/**'
+            ],
+        }),
         babel({
             exclude: 'node_modules/**',
         }),
