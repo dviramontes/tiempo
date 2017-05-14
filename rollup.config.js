@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import eslint from 'rollup-plugin-eslint';
 import globals from 'rollup-plugin-node-globals';
 import uglify from 'rollup-plugin-uglify';
+import less from 'rollup-plugin-less';
 
 const isProd = process.env.NODE_ENV === 'prod';
 
@@ -15,15 +16,12 @@ export default {
     sourceMap: 'inline',
     external,
     plugins: [
+        less(),
         resolve({ jsnext: true, browser: true, main: true }),
         commonjs({
             include: 'node_modules/**',
         }),
-        eslint({
-            exclude: [
-                'src/styles/**'
-            ],
-        }),
+        eslint(),
         babel({
             exclude: 'node_modules/**',
         }),

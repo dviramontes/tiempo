@@ -8,7 +8,7 @@ log('logging is enabled');
 
 function component () {
     var element = document.createElement('div');
-    element.innerHTML = join(['All', ' rolled up'], '');
+    element.innerHTML = join(['All', ' rolled up!'], '');
     return element;
 }
 
