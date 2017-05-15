@@ -11,12 +11,14 @@ const isProd = process.env.NODE_ENV === 'prod';
 const external = [];
 
 export default {
-    entry: 'src/app.js',
+    entry: 'src/client.js',
     format: 'iife',
     sourceMap: 'inline',
     external,
     plugins: [
-        less(),
+        less({
+            output: './dist/main.min.css'
+        }),
         resolve({ jsnext: true, browser: true, main: true }),
         commonjs({
             include: 'node_modules/**',
@@ -28,5 +30,5 @@ export default {
         globals(),
         (isProd && uglify()),
     ],
-    dest: 'dist/app.min.js',
+    dest: 'dist/client.min.js',
 }

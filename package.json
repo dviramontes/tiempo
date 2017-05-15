@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "rollup -c -w",
-    "dev": "npm-run-all --parallel sync watch",
-    "build": "NODE_ENV=prod rollup -c",
-    "sync": "browser-sync start --s --index 'index.html' --files 'dist/**'"
+    "watch:server": "rollup -c rollup.server.config.js -w",
+    "watch:client": "rollup -c rollup.client.config.js -w",
+    "dev:server": "npm-run-all --parallel watch:server sync:server",
+    "dev:client": "npm-run-all --parallel watch:client sync:client",
+    "build": "NODE_ENV=prod rollup -c rollup.client.config.js",
+    "sync:client": "browser-sync start --s --index 'index.html' --files 'dist/**'",
+    "sync:server": "nodemon './dist/server.umd.js'"
   },
   "author": "dviramontes",
   "license": "ISC",
@@ -23,6 +26,7 @@
     "babelrc-rollup": "^3.0.0",
     "browser-sync": "^2.18.8",
     "eslint": "^3.19.0",
+    "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
@@ -36,6 +40,8 @@
   },
   "dependencies": {
     "debug": "^2.6.6",
+    "express": "^4.15.2",
+    "google-calendar": "^1.3.2",
     "lodash.join": "^4.0.1"
   }
 }
