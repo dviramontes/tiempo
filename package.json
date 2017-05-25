@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "rimfaf dist",
     "watch:server": "rollup -c rollup.server.config.js -w",
     "watch:client": "rollup -c rollup.client.config.js -w",
     "dev:server": "npm-run-all --parallel watch:server sync:server",
@@ -28,6 +29,7 @@
     "eslint": "^3.19.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
+    "rimraf": "^2.6.1",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
@@ -48,6 +50,7 @@
     "lodash.has": "^4.5.2",
     "lodash.join": "^4.0.1",
     "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0"
+    "passport-google-oauth": "^1.0.0",
+    "rollup-plugin-copy": "^0.2.3"
   }
 }

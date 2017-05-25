@@ -1,13 +1,8 @@
 import join from 'lodash.join';
-import debug from 'debug';
-
-const log = debug('app:log');
-debug.enable('*');
-
-log('logging is enabled');
+import '../main.less';
 
 function component () {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
     element.innerHTML = join(['All', ' rolled up!'], '');
     return element;
 }

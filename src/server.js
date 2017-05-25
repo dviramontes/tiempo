@@ -16,6 +16,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(session({ secret: 'FBI_CREDS' }));
 app.use(passport.initialize());
+app.use(express.static('public'));
 
 const PORT = 4000;
 const scope = ['openid', 'email', 'https://www.googleapis.com/auth/calendar'];
@@ -32,25 +33,31 @@ const GoogleStrategyConfig = new GoogleStrategy({
 
 passport.use(GoogleStrategyConfig);
 
-app.get('/auth', passport.authenticate('google', {session: false}));
+app.all('/', (req, res) => {
+    if (!has(req, 'session.access_token')) return res.redirect('/auth');
+    return res.status(200).send(req.session.accessToken);
+});
 
-app.get('/auth/callback', passport.authenticate('google',
-    {session: false, failureRedirect: '/login'}),
+app.all('/calendar/:id', (req, res) => {
+    if (!has(req, 'session.access_token')) return res.redirect('/auth');
+    const accessToken = req.session.access_token;
+    gcal(accessToken).calendarList.list((err, calendarList) => {
+        if (err) return res.status(500).send(err);
+        const calendarId = req.params.id;
+        gcal(accessToken).events.list(calendarId, (err, eventList) => {
+            return res.status(200).send(eventList);
+        });
+    });
+});
+
+app.get('/auth', passport.authenticate('google', { session: false }));
+
+app.get('/auth/callback',
+    passport.authenticate('google',
+        { session: false, failureRedirect: '/login' }),
     (req, res) => {
         req.session.access_token = req.user.accessToken;
         res.redirect('/');
     });
-
-app.all('/', function (req, res) {
-
-    if (!has(req, 'session.access_token')) return res.redirect('/auth');
-
-    const accessToken = req.session.access_token;
-
-    gcal(accessToken).calendarList.list(function (err, data) {
-        if (err) return res.send(500, err);
-        return res.send(data);
-    });
-});
 
 app.listen(PORT);
