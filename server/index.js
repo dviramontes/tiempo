@@ -6,18 +6,12 @@ import has from 'lodash.has';
 import cookieParser from 'cookie-parser';
 import passportGoogleOAuth from 'passport-google-oauth';
 import session from 'express-session';
+import cors from 'cors';
 
 import config from './config';
 
 const app = express();
 const GoogleStrategy = passportGoogleOAuth.OAuth2Strategy;
-
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(session({ secret: 'FBI_CREDS' }));
-app.use(passport.initialize());
-app.use(express.static('public'));
-
 const PORT = 4000;
 const scope = ['openid', 'email', 'https://www.googleapis.com/auth/calendar'];
 
@@ -31,6 +25,13 @@ const GoogleStrategyConfig = new GoogleStrategy({
   return done(null, profile);
 });
 
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(session({ secret: 'FBI_CREDS' }));
+app.use(passport.initialize());
+app.use(express.static('public'));
+app.use(cors());
+
 passport.use(GoogleStrategyConfig);
 
 app.all('/', (req, res) => {
@@ -41,7 +42,7 @@ app.all('/', (req, res) => {
 app.all('/calendar/:id', (req, res) => {
   if (!has(req, 'session.access_token')) return res.redirect('/auth');
   const accessToken = req.session.access_token;
-  gcal(accessToken).calendarList.list((err, calendarList) => {
+  gcal(accessToken).calendarList.list(err => {
     if (err) return res.status(500).send(err);
     const calendarId = req.params.id;
     gcal(accessToken).events.list(calendarId, (err, eventList) => {

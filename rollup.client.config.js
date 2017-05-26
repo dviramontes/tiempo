@@ -11,7 +11,7 @@ const isProd = process.env.NODE_ENV === 'prod';
 const external = [];
 
 export default {
-    entry: 'src/client.js',
+    entry: 'server/client.js',
     format: 'iife',
     sourceMap: 'inline',
     external,

@@ -5,7 +5,7 @@ import copy from 'rollup-plugin-copy';
 const external = [];
 
 export default {
-    entry: 'src/server.js',
+    entry: 'server/index.js',
     format: 'umd',
     external,
     plugins: [
