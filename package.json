@@ -6,11 +6,8 @@
   "scripts": {
     "prestart": "rimfaf dist",
     "watch:server": "rollup -c rollup.server.config.js -w",
-    "watch:client": "rollup -c rollup.client.config.js -w",
     "dev:server": "npm-run-all --parallel watch:server sync:server",
-    "dev:client": "npm-run-all --parallel watch:client sync:client",
     "build": "NODE_ENV=prod rollup -c rollup.client.config.js",
-    "sync:client": "browser-sync start --s --index 'index.html' --files 'dist/**'",
     "sync:server": "nodemon './dist/server.js'"
   },
   "author": "mmmanyfold/dviramontes",
@@ -21,28 +18,22 @@
     "babel-loader": "^7.0.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-latest": "^6.24.1",
     "babelrc-rollup": "^3.0.0",
-    "browser-sync": "^2.18.8",
     "eslint": "^3.19.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-eslint": "^3.0.0",
-    "rollup-plugin-less": "^0.1.3",
-    "rollup-plugin-node-globals": "^1.1.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^1.0.2",
     "rollup-watch": "^3.2.2"
   },
   "dependencies": {
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.23.0",
     "body-parser": "^1.17.1",
     "bunyan": "^1.8.10",
     "cookie-parser": "^1.4.3",
@@ -53,8 +44,8 @@
     "google-calendar": "^1.3.2",
     "lodash.has": "^4.5.2",
     "lodash.join": "^4.0.1",
+    "moment": "^2.18.1",
     "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0",
-    "rollup-plugin-copy": "^0.2.3"
+    "passport-google-oauth": "^1.0.0"
   }
 }

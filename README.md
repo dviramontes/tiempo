@@ -10,9 +10,6 @@
 
 `npm run dev:server`
 
-`npm run dev:client`
-
-
 ### ENDPOINTS
 
 #### Get today's calendar event

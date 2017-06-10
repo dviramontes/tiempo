@@ -34,7 +34,6 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(session({ secret: 'FBI_CREDS' }));
 app.use(passport.initialize());
-app.use(express.static('public'));
 app.use(cors());
 
 passport.use(GoogleStrategyConfig);
@@ -73,7 +72,7 @@ app.get('/today/:id', (req, res) => {
   const { id } = req.params;
   const today = moment().format('YYYY-MM-DDTHH:mm:ssZ');
   const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DDTHH:mm:ssZ');
-  res.redirect(`/calendar/${id}/:${yesterday}/:${today}`);
+  res.redirect(`/calendar/${id}/${yesterday}/${today}`);
 })
 
 app.get('/auth', passport.authenticate('google', { session: false }));
