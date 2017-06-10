@@ -1,5 +1,5 @@
 {
-  "name": "frontend-project-starter",
+  "name": "tiempo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,9 +11,9 @@
     "dev:client": "npm-run-all --parallel watch:client sync:client",
     "build": "NODE_ENV=prod rollup -c rollup.client.config.js",
     "sync:client": "browser-sync start --s --index 'index.html' --files 'dist/**'",
-    "sync:server": "nodemon './dist/server.umd.js'"
+    "sync:server": "nodemon './dist/server.js'"
   },
-  "author": "dviramontes",
+  "author": "mmmanyfold/dviramontes",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -41,7 +41,10 @@
     "rollup-watch": "^3.2.2"
   },
   "dependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
     "body-parser": "^1.17.1",
+    "bunyan": "^1.8.10",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.3",
     "debug": "^2.6.6",

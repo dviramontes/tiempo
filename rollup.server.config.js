@@ -2,11 +2,12 @@ import babel from 'rollup-plugin-babel';
 import eslint from 'rollup-plugin-eslint';
 import copy from 'rollup-plugin-copy';
 
-const external = [];
+let pkg = require('./package.json');
+let external = Object.keys(pkg.dependencies);
 
 export default {
     entry: 'server/index.js',
-    format: 'umd',
+    format: 'cjs',
     external,
     plugins: [
         eslint(),
@@ -20,5 +21,5 @@ export default {
             verbose: true
         })
     ],
-    dest: 'dist/server.umd.js',
+    dest: 'dist/server.js',
 }

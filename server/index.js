@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
@@ -7,8 +8,12 @@ import cookieParser from 'cookie-parser';
 import passportGoogleOAuth from 'passport-google-oauth';
 import session from 'express-session';
 import cors from 'cors';
+import moment from 'moment';
+import bunyan from 'bunyan';
 
 import config from './config';
+
+const log = bunyan.createLogger({ name: 'tiempo' });
 
 const app = express();
 const GoogleStrategy = passportGoogleOAuth.OAuth2Strategy;
@@ -34,22 +39,42 @@ app.use(cors());
 
 passport.use(GoogleStrategyConfig);
 
+function fetchCalEventsPromise(accessToken, id, timeMin, timeMax) {
+  return new Promise((resolve, reject) => {
+    return gcal(accessToken).events.list(id, {
+      timeMin,
+      timeMax,
+    }, (err, eventList) => {
+      if (err) return reject(err);
+      return resolve(eventList);
+    });
+  });
+}
+
 app.all('/', (req, res) => {
   if (!has(req, 'session.access_token')) return res.redirect('/auth');
   return res.status(200).send(req.session.accessToken);
 });
 
-app.all('/calendar/:id', (req, res) => {
+app.all('/calendar/:id/:timeMin/:timeMax', async (req, res) => {
   if (!has(req, 'session.access_token')) return res.redirect('/auth');
   const accessToken = req.session.access_token;
-  gcal(accessToken).calendarList.list(err => {
-    if (err) return res.status(500).send(err);
-    const calendarId = req.params.id;
-    gcal(accessToken).events.list(calendarId, (err, eventList) => {
-      return res.status(200).send(eventList);
-    });
-  });
+  const { id, timeMin, timeMax } = req.params;
+  try {
+    const eventList = await fetchCalEventsPromise(accessToken, id, timeMin, timeMax);
+    return res.status(200).send(eventList);
+  } catch (err) {
+    log.error(err.message);
+    return res.status(500).send(err);
+  }
 });
+
+app.get('/today/:id', (req, res) => {
+  const { id } = req.params;
+  const today = moment().format('YYYY-MM-DDTHH:mm:ssZ');
+  const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DDTHH:mm:ssZ');
+  res.redirect(`/calendar/${id}/:${yesterday}/:${today}`);
+})
 
 app.get('/auth', passport.authenticate('google', { session: false }));
 
