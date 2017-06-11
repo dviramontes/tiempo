@@ -46,6 +46,7 @@
     "lodash.join": "^4.0.1",
     "moment": "^2.18.1",
     "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0"
+    "passport-google-oauth": "^1.0.0",
+    "passport-oauth2-refresh": "^1.0.0"
   }
 }
